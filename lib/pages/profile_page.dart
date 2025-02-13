@@ -1,8 +1,13 @@
+// profile_page.dart
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-// Make sure you have firebase_auth in your pubspec.yaml
 import 'package:firebase_auth/firebase_auth.dart';
+// Import other necessary pages
+import 'cart_page.dart'; // You might want to rename or remove if no longer used
+import 'wallet_page.dart';
+import 'help_center_page.dart';
+import 'chat_support_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -27,6 +32,13 @@ class _ProfilePageState extends State<ProfilePage> {
         _profileImage = File(pickedFile.path);
       });
     }
+  }
+
+  // Method to handle logout
+  Future<void> _logout() async {
+    await FirebaseAuth.instance.signOut();
+    // Navigate to the login page and remove all previous routes
+    Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
   }
 
   @override
@@ -126,16 +138,17 @@ class _ProfilePageState extends State<ProfilePage> {
 
                   const SizedBox(height: 30),
 
-                  // My Cart and My Wallet Section
+                  // My Orders and My Wallet Section
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       _buildFeatureCard(
-                        icon: Icons.shopping_cart,
+                        icon: Icons.receipt_long, // Changed icon (optional)
                         color: Colors.purple,
-                        title: 'My Cart',
+                        title: 'My Orders', // Changed title
                         onTap: () {
-                          // Navigate to My Cart page
+                          // Navigate to My Orders page using named route
+                          Navigator.pushNamed(context, '/orders'); // Updated route
                         },
                       ),
                       _buildFeatureCard(
@@ -143,7 +156,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Colors.orange,
                         title: 'My Wallet',
                         onTap: () {
-                          // Navigate to My Wallet page
+                          // Navigate to My Wallet page using named route
+                          Navigator.pushNamed(context, '/wallet');
                         },
                       ),
                     ],
@@ -181,7 +195,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: Colors.blue),
                           title: const Text('Help Center'),
                           onTap: () {
-                            // Add functionality for Help Center
+                            // Navigate to Help Center page
+                            Navigator.pushNamed(context, '/help-center');
                           },
                         ),
                         ListTile(
@@ -189,8 +204,27 @@ class _ProfilePageState extends State<ProfilePage> {
                           const Icon(Icons.chat, color: Colors.green),
                           title: const Text('Chat Support'),
                           onTap: () {
-                            // Add functionality for Chat Support
+                            // Navigate to Chat Support page
+                            Navigator.pushNamed(context, '/chat-support');
                           },
+                        ),
+                        const SizedBox(height: 10),
+                        // Logout Button
+                        Center(
+                          child: ElevatedButton.icon(
+                            onPressed: _logout,
+                            icon: const Icon(Icons.logout),
+                            label: const Text('Logout'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red, // Background color
+                              foregroundColor: Colors.white, // Text and icon color
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -217,13 +251,32 @@ class _ProfilePageState extends State<ProfilePage> {
             label: 'Favorites',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
+            icon: Icon(Icons.receipt_long), // Changed icon (optional)
+            label: 'Orders', // Changed label
           ),
         ],
         currentIndex: 1, // Set the selected index to "Profile"
+        selectedItemColor: Colors.green,
+        unselectedItemColor: Colors.grey,
         onTap: (index) {
-          // Add functionality to handle navigation between pages
+          // Handle navigation based on the tapped index
+          switch (index) {
+            case 0:
+            // Navigate to Home Dashboard
+              Navigator.pushNamed(context, '/home');
+              break;
+            case 1:
+            // Already on Profile, do nothing or refresh
+              break;
+            case 2:
+            // Navigate to Favorites Page
+              Navigator.pushNamed(context, '/favorites'); // Ensure '/favorites' route is defined
+              break;
+            case 3:
+            // Navigate to Orders Page
+              Navigator.pushNamed(context, '/orders'); // Updated route
+              break;
+          }
         },
       ),
     );

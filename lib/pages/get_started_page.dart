@@ -66,7 +66,7 @@ class GetStartedPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       const Text(
-                        "Premium Food At Your Doorstep",
+                        "Premium Products from PERG",
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,

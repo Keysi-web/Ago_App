@@ -34,7 +34,7 @@ class OnboardingPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   const Text(
-                    "Lorem ipsum dolor sit amet, consectetur\nsadipscing elitr, sed diam nonumy",
+                    "Buy & Sell Platform\nConnect farmers, suppliers, and buyers in a seamless marketplace for seeds, equipment, produce, and more.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 16,

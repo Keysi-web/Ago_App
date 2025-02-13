@@ -230,7 +230,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             productName: productName,
                             price: price,
                             quantity: quantity,
-                            imageUrl: imageUrl,
+                            imageUrl: imageUrl, id: '',
                           );
 
                           // 2. Add it to CartPage's static cartItems list
